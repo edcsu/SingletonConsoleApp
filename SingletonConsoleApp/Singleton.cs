@@ -10,13 +10,18 @@ namespace SingletonConsoleApp
     {
         private static Singleton _instance = default!;
 
+        private static object _lock = new ();
+
         private static Singleton Instance 
         { 
             get
             {
-                _instance ??= new Singleton();
+                lock (_lock) 
+                {
+                    _instance ??= new Singleton();
 
-                return _instance;
+                    return _instance;
+                }
             }
         }
 
