@@ -8,13 +8,24 @@ namespace SingletonConsoleApp
 {
     public sealed class Singleton
     {
-        private static readonly Lazy<Singleton> _lazyInstance = new(() => new Singleton());
+        public static Singleton Instance => Nested.Instance;
 
-        public static Singleton Instance => _lazyInstance.Value;
+        private class Nested
+        {
+            internal static Singleton Instance { get; } = new();
+            
+            static Nested()
+            {
+            }
+        }
 
         private Singleton() 
         {
             Console.WriteLine("Instantiating singleton");
+        }
+        
+        static Singleton() 
+        {
         }
     }
 }
