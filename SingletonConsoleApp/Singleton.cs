@@ -16,12 +16,17 @@ namespace SingletonConsoleApp
         { 
             get
             {
-                lock (_lock) 
+                if (_instance is null)
                 {
-                    _instance ??= new Singleton();
+                    lock (_lock)
+                    {
+                        _instance ??= new Singleton();
 
-                    return _instance;
+                        return _instance;
+                    }
                 }
+
+                return _instance;
             }
         }
 
