@@ -8,28 +8,13 @@ namespace SingletonConsoleApp
 {
     public sealed class Singleton
     {
-        private static Singleton _instance = default!;
+        private static readonly Lazy<Singleton> _lazyInstance = new(() => new Singleton());
 
-        private static object _lock = new ();
+        public static Singleton Instance => _lazyInstance.Value;
 
-        private static Singleton Instance 
-        { 
-            get
-            {
-                if (_instance is null)
-                {
-                    lock (_lock)
-                    {
-                        _instance ??= new Singleton();
-
-                        return _instance;
-                    }
-                }
-
-                return _instance;
-            }
+        private Singleton() 
+        {
+            Console.WriteLine("Instantiating singleton");
         }
-
-        private Singleton() { }
     }
 }
